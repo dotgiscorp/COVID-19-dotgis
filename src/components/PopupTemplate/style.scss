@@ -1,0 +1,65 @@
+@import '../../../styles/mixins.scss';
+
+.mapboxgl-ctrl-bottom-left {
+  display: none;
+}
+
+.mapboxgl-ctrl-bottom-right {
+  display: none;
+}
+
+.mapboxgl-popup-content {
+  background-color: rgb(89, 89, 89) !important;
+  color: white !important;
+  border-color: transparent !important;
+  box-shadow: none !important;
+  padding: 6px !important;
+  font-weight: 600 !important;
+  pointer-events: none !important;
+}
+
+.mapboxgl-popup-tip {
+  display: none;
+}
+
+$popup-grid-columns: 14; // Number of fields
+
+@mixin popup-generator($column-position) {
+  @for $i from 0 through $popup-grid-columns {
+    $sum: $i + 1;
+
+    &-#{$i} {
+      grid-column: col $column-position;
+      grid-row: row $sum;
+    }
+  }
+}
+
+.popup-template {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax([col] .5fr, [col] .5fr));
+  grid-template-rows: [row] auto [row] auto [row];
+  padding: .125rem;
+  @include align-items(baseline);
+
+  &--static {
+    @include popup-generator(1);
+    font-size: .8rem;
+    justify-self: flex-end;
+  }
+
+  &--dynamic {
+    @include popup-generator(2);
+    color: lightgrey;
+    margin-left: .5rem;
+
+    span:first-child {
+      margin-right: .25rem;
+      font-size: .9rem;
+    }
+
+    span:nth-child(2) {
+      font-size: .7rem;
+    }
+  }
+}

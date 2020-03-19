@@ -2,11 +2,12 @@
 
 .layers-picker {
     @include flex-definition(column, center, flex-start);
-    position: absolute;
-    top: 2rem;
-    right: 2rem;
     background-color: white;
     padding: .75rem;
     border-radius: .25rem;
     z-index: 2;
+
+    div:last-child {
+        margin-bottom: 0 !important;
+    }
 }

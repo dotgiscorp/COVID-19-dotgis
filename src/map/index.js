@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import mapboxgl from 'mapbox-gl';
 import ReactMapboxGL, { MapContext, ZoomControl } from 'react-mapbox-gl';
 import { Sources, Layers, useCartoTiles } from '../layers';
-import { Loader, LayerSelector } from '../components';
+import { Loader, WidgetsContainer, LayerSelector, Geocoder } from '../components';
 import CONFIG from '../layers/Config/config';
 
 const Map = ReactMapboxGL({
@@ -41,7 +41,12 @@ const MapboxMap = ({ mapFilters }) => {
             mapObject && (
               <>
                 <Loader mapObject={mapObject} />
-                <LayerSelector key="layer-picker" map={mapObject} layers={layersVisibilityConfig} />
+                <WidgetsContainer position="top-left">
+                  <Geocoder mapObject={mapObject} />
+                </WidgetsContainer>
+                <WidgetsContainer>
+                  <LayerSelector key="layer-picker" mapObject={mapObject} layers={layersVisibilityConfig} />
+                </WidgetsContainer>
               </>
             )
           }

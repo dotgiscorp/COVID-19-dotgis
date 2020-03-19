@@ -1,0 +1,14 @@
+@import '../../../styles/mixins.scss';
+
+.map-container {
+    @include flex-definition(column, flex-end, flex-end);
+    position: absolute;
+    background-color: transparent;
+    border-radius: .25rem;
+    padding: .5rem;
+
+    &__child {
+        margin-bottom: 1rem;
+        z-index: 1;
+    }
+}

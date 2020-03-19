@@ -1,11 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Map } from 'mapbox-gl';
+import '@carto/airship-style';
 import './style.scss';
 
-import '@carto/airship-style';
-
-const LayerSelector = ({ map, layers }) => {
+const LayerSelector = ({ mapObject, layers }) => {
     const [visibility, setVisibility] = React.useState(null);
 
     React.useEffect(() => {
@@ -26,10 +25,10 @@ const LayerSelector = ({ map, layers }) => {
 
         for (const config of layers) {
             for (const layer of config.layersIds) {
-                if (map.getLayer(layer)) {
-                    map.getLayoutProperty(layer, 'visibility') === 'visible' ?
-                        map.setLayoutProperty(layer, 'visibility', 'none') :
-                        map.setLayoutProperty(layer, 'visibility', 'visible');
+                if (mapObject.getLayer(layer)) {
+                    mapObject.getLayoutProperty(layer, 'visibility') === 'visible' ?
+                        mapObject.setLayoutProperty(layer, 'visibility', 'none') :
+                        mapObject.setLayoutProperty(layer, 'visibility', 'visible');
                 }
             }
         }
@@ -56,7 +55,7 @@ const LayerSelector = ({ map, layers }) => {
 };
   
 LayerSelector.propTypes = {
-    map: PropTypes.instanceOf(Map).isRequired,
+    mapObject: PropTypes.instanceOf(Map).isRequired,
     layers: PropTypes.arrayOf(
         PropTypes.shape({
           shouldShowOnInit: PropTypes.bool,

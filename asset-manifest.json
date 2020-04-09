@@ -1,25 +1,25 @@
 {
   "files": {
-    "main.css": "/CODVID-19-dotgis/static/css/main.ecfd87d1.chunk.css",
-    "main.js": "/CODVID-19-dotgis/static/js/main.253e1e25.chunk.js",
-    "main.js.map": "/CODVID-19-dotgis/static/js/main.253e1e25.chunk.js.map",
+    "main.css": "/CODVID-19-dotgis/static/css/main.b4e6ee4d.chunk.css",
+    "main.js": "/CODVID-19-dotgis/static/js/main.519114b6.chunk.js",
+    "main.js.map": "/CODVID-19-dotgis/static/js/main.519114b6.chunk.js.map",
     "runtime-main.js": "/CODVID-19-dotgis/static/js/runtime-main.b7db977c.js",
     "runtime-main.js.map": "/CODVID-19-dotgis/static/js/runtime-main.b7db977c.js.map",
-    "static/css/2.57642f55.chunk.css": "/CODVID-19-dotgis/static/css/2.57642f55.chunk.css",
-    "static/js/2.8cd4078f.chunk.js": "/CODVID-19-dotgis/static/js/2.8cd4078f.chunk.js",
-    "static/js/2.8cd4078f.chunk.js.map": "/CODVID-19-dotgis/static/js/2.8cd4078f.chunk.js.map",
+    "static/css/2.d063db80.chunk.css": "/CODVID-19-dotgis/static/css/2.d063db80.chunk.css",
+    "static/js/2.4bc79880.chunk.js": "/CODVID-19-dotgis/static/js/2.4bc79880.chunk.js",
+    "static/js/2.4bc79880.chunk.js.map": "/CODVID-19-dotgis/static/js/2.4bc79880.chunk.js.map",
     "index.html": "/CODVID-19-dotgis/index.html",
-    "precache-manifest.9fe7dcd568e4c69536d690949badc034.js": "/CODVID-19-dotgis/precache-manifest.9fe7dcd568e4c69536d690949badc034.js",
+    "precache-manifest.ba7176cc6e5505dc0cf70d1f73ccbaf0.js": "/CODVID-19-dotgis/precache-manifest.ba7176cc6e5505dc0cf70d1f73ccbaf0.js",
     "service-worker.js": "/CODVID-19-dotgis/service-worker.js",
-    "static/css/2.57642f55.chunk.css.map": "/CODVID-19-dotgis/static/css/2.57642f55.chunk.css.map",
-    "static/css/main.ecfd87d1.chunk.css.map": "/CODVID-19-dotgis/static/css/main.ecfd87d1.chunk.css.map",
-    "static/js/2.8cd4078f.chunk.js.LICENSE.txt": "/CODVID-19-dotgis/static/js/2.8cd4078f.chunk.js.LICENSE.txt"
+    "static/css/2.d063db80.chunk.css.map": "/CODVID-19-dotgis/static/css/2.d063db80.chunk.css.map",
+    "static/css/main.b4e6ee4d.chunk.css.map": "/CODVID-19-dotgis/static/css/main.b4e6ee4d.chunk.css.map",
+    "static/js/2.4bc79880.chunk.js.LICENSE.txt": "/CODVID-19-dotgis/static/js/2.4bc79880.chunk.js.LICENSE.txt"
   },
   "entrypoints": [
     "static/js/runtime-main.b7db977c.js",
-    "static/css/2.57642f55.chunk.css",
-    "static/js/2.8cd4078f.chunk.js",
-    "static/css/main.ecfd87d1.chunk.css",
-    "static/js/main.253e1e25.chunk.js"
+    "static/css/2.d063db80.chunk.css",
+    "static/js/2.4bc79880.chunk.js",
+    "static/css/main.b4e6ee4d.chunk.css",
+    "static/js/main.519114b6.chunk.js"
   ]
 }

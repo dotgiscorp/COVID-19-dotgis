@@ -14,7 +14,7 @@
 importScripts("https://storage.googleapis.com/workbox-cdn/releases/4.3.1/workbox-sw.js");
 
 importScripts(
-  "/CODVID-19-dotgis/precache-manifest.9fe7dcd568e4c69536d690949badc034.js"
+  "/CODVID-19-dotgis/precache-manifest.ba7176cc6e5505dc0cf70d1f73ccbaf0.js"
 );
 
 self.addEventListener('message', (event) => {

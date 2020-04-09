@@ -1,71 +1,14 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-// import CartoMVTRequest from '../Classes/CartoMVTRequest.js';
+import CartoMVTRequest from '../Classes/CartoMVTRequest';
 import QUERY from '../Config/queries';
 import CONFIG from '../Config/config';
 import PAINT from '../Config/paints';
 
-class CartoMVTRequest {
-  constructor(definition) {
-    this.cartoAccount = definition.cartoAccount;
-    this.cartoMapsKey = definition.cartoMapsKey;
-    this.id = definition.id;
-    this.sql = definition.sql;
-    this.getGeoJSON = definition.getGeoJSON;
-    this.aggregationConfig = definition.aggregationConfig;
-  }
-
-  async getTiles() {
-    const mapConfig = {
-      buffersize: { mvt: 1 },
-      layers: [
-        {
-          id: this.id,
-          type: 'mapnik',
-          options: {
-            sql: this.sql,
-            aggregation: this.aggregationConfig || undefined,
-            id: 'cartodb_id'
-          }
-        }
-      ]
-    };
-
-    const response = await fetch(
-      `https://${this.cartoAccount}.carto.com/api/v1/map${
-        this.cartoMapsKey ? `?api_key=${this.cartoMapsKey}` : ''
-      }`,
-      {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(mapConfig)
-      }
-    );
-
-    const layergroup = await response.json();
-
-    return layergroup.metadata.tilejson.vector.tiles;
-  }
-
-  get requestInfo() {
-    return {
-      carto_account: this.cartoAccount,
-      carto_maps_key: this.cartoMapsKey,
-      request_id: this.id,
-      sql_query: this.sql,
-      aggregation_config: this.aggregationConfig || undefined
-    };
-  }
-
-  set updateSql(query) {
-    this.sql = query;
-  }
-}
-
-function useCartoTiles(mapFilters) {
+function useCartoTiles() {
   const [layersConfig, setLayers] = useState(null);
 
-  const getStaticTiles = async () => {
+  const getTiles = async () => {
       
     const voronoiInfo = new CartoMVTRequest({
       cartoAccount: CONFIG.dotgisUser,
@@ -146,26 +89,32 @@ function useCartoTiles(mapFilters) {
       supermarketsVoronoiInfo.getTiles()
     ]).then(response => {
       setLayers({
-        voronoi_id: {
+        pharmacy_voronoi_source: {
           isSource: true,
+          sourceId: CONFIG.voronoiSourceId,
+          pbf: response[0],
+          promoteId: 'cartodb_id'
+        },
+        pharmacy_voronoi_layer: {
           id: CONFIG.voronoiId,
           sourceId: CONFIG.voronoiSourceId,
           sourceLayer: CONFIG.voronoiSourceLayer,
-          pbf: response[0],
-          promoteId: 'cartodb_id',
           type: 'fill',
           paint: PAINT.voronoi,
           layout: {
             'visibility': 'visible'
           }
         },
-        pharmacy_id_raw: {
+        pharmacy_raw_source: {
           isSource: true,
+          sourceId: `${CONFIG.pharmacySourceId}_raw`,
+          pbf: response[2],
+          promoteId: 'cartodb_id'
+        },
+        pharmacy_raw_layer: {
           id: `${CONFIG.pharmacyId}_raw`,
           sourceId: `${CONFIG.pharmacySourceId}_raw`,
           sourceLayer: `${CONFIG.pharmacySourceLayer}_raw`,
-          pbf: response[2],
-          promoteId: 'cartodb_id',
           type: 'circle',
           paint: PAINT.pharmacy,
           popupFieldsConfig: {
@@ -182,49 +131,56 @@ function useCartoTiles(mapFilters) {
             'visibility': 'visible'
           }
         },
-        pharmacy_id: {
+        pharmacy_cluster_source: {
           isSource: true,
+          sourceId: CONFIG.pharmacySourceId,
+          pbf: response[1],
+          promoteId: 'cartodb_id'
+        },
+        pharmacy_cluster_layer: {
           id: CONFIG.pharmacyId,
           sourceId: CONFIG.pharmacySourceId,
           sourceLayer: CONFIG.pharmacySourceLayer,
-          pbf: response[1],
-          promoteId: 'cartodb_id',
           type: 'circle',
           paint: PAINT.cluster(CONFIG.aggregatedField),
           layout: {
             'visibility': 'visible'
           }
         },
-        pharmacy_labels_id: {
+        pharmacy_cluster_labels_layer: {
           id: `${CONFIG.pharmacyId}_labels`,
           sourceId: CONFIG.pharmacySourceId,
           sourceLayer: CONFIG.pharmacySourceLayer,
-          pbf: response[1],
-          promoteId: 'cartodb_id',
           type: 'symbol',
           paint: PAINT.label_paint(CONFIG.aggregatedField).textColor,
           layout: { 'visibility': 'visible', ...PAINT.label_paint(CONFIG.aggregatedField).layout }
         },
-        supermarkets_voronoi_id: {
+        supermarkets_voronoi_source: {
           isSource: true,
+          sourceId: CONFIG.supermarketsVoronoiSourceId,
+          pbf: response[5],
+          promoteId: 'cartodb_id'
+        },
+        supermarkets_voronoi_layer: {
           id: CONFIG.supermarketsVoronoiId,
           sourceId: CONFIG.supermarketsVoronoiSourceId,
           sourceLayer: CONFIG.supermarketsVoronoiSourceLayer,
-          pbf: response[5],
-          promoteId: 'cartodb_id',
           type: 'fill',
           paint: PAINT.voronoi,
           layout: {
             'visibility': 'none'
           }
         },
-        supermarket_id_raw: {
+        supermarkets_raw_source: {
           isSource: true,
+          sourceId: `${CONFIG.supermarketsSourceId}_raw`,
+          pbf: response[3],
+          promoteId: 'cartodb_id'
+        },
+        supermarkets_raw_layer: {
           id: `${CONFIG.supermarketsId}_raw`,
           sourceId: `${CONFIG.supermarketsSourceId}_raw`,
           sourceLayer: `${CONFIG.supermarketsSourceLayer}_raw`,
-          pbf: response[3],
-          promoteId: 'cartodb_id',
           type: 'circle',
           paint: PAINT.supermarket,
           popupFieldsConfig: {
@@ -241,20 +197,23 @@ function useCartoTiles(mapFilters) {
             'visibility': 'none'
           }
         },
-        supermarket_id: {
+        supermarkets_cluster_source: {
           isSource: true,
+          sourceId: CONFIG.supermarketsSourceId,
+          pbf: response[4],
+          promoteId: 'cartodb_id'
+        },
+        supermarkets_cluster_layer: {
           id: CONFIG.supermarketsId,
           sourceId: CONFIG.supermarketsSourceId,
           sourceLayer: CONFIG.supermarketsSourceLayer,
-          pbf: response[4],
-          promoteId: 'cartodb_id',
           type: 'circle',
           paint: PAINT.cluster(CONFIG.aggregatedSupermarketsField),
           layout: {
             'visibility': 'none'
           }
         },
-        supermarket_labels_id: {
+        supermarket_cluster_labels_layer: {
           id: `${CONFIG.supermarketsId}_labels`,
           sourceId: CONFIG.supermarketsSourceId,
           sourceLayer: CONFIG.supermarketsSourceLayer,
@@ -269,8 +228,8 @@ function useCartoTiles(mapFilters) {
   };
 
   React.useEffect(() => {
-    getStaticTiles(mapFilters);
-  }, [mapFilters]);
+    getTiles();
+  }, []);
 
   return [layersConfig];
 }

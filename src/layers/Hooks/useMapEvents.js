@@ -8,7 +8,7 @@ function useMapEvents(map, layersIds) {
     shouldRender: false
   });
 
-  const [clickedFeature, setFeature] = useState(null);
+  const [clickedFeature, setClickedFeature] = useState(null);
 
   function enableEvents() {
     const mapObject = map;
@@ -44,7 +44,11 @@ function useMapEvents(map, layersIds) {
       });
 
       mapObject.on('click', values[i].id, e => {
-        e.features.length !== 0 && setFeature(e.features[0]);
+        e.features.length !== 0 && setClickedFeature(e.features[0]);
+      });
+
+      mapObject.on('touchstart', values[i].id, e => {
+        e.features.length !== 0 && setClickedFeature(e.features[0]);
       });
     }
   }

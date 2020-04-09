@@ -1,27 +1,27 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Map } from 'mapbox-gl';
+import { store } from '../../store/store';
 import '@carto/airship-style';
 import './style.scss';
 
 const LayerSelector = ({ mapObject, layers }) => {
-    const [visibility, setVisibility] = React.useState(null);
+    const globalState = React.useContext(store);
+    const { state, dispatch } = globalState;
 
     React.useEffect(() => {
         if (layers) {
             for (const layer of layers) {
                 if (layer.shouldShowOnInit) {
-                    setVisibility(layer.layersIds[0]);
+                    dispatch({ type: 'switch layer', payload: layer.layersIds[0] });
                 }
             }
         }
     }, []);
 
-
     const switchVisibility = e => {
         const id = e.target.name;
-        
-        setVisibility(id);
+
+        dispatch({ type: 'switch layer', payload: id });
 
         for (const config of layers) {
             for (const layer of config.layersIds) {
@@ -36,7 +36,7 @@ const LayerSelector = ({ mapObject, layers }) => {
 
     return (
           <div className="layers-picker">
-            {visibility && layers.map((layer, index) => (
+            {state.selectedLayer && layers.map((layer, index) => (
                 <div key={layer.layersIds[0]} className="as-radio">
                     <input
                         className="as-radio__input"
@@ -44,8 +44,8 @@ const LayerSelector = ({ mapObject, layers }) => {
                         name={layer.layersIds[0]}
                         id={layer.layersIds[0]}
                         value={index}
-                        checked={visibility === layer.layersIds[0]}
-                        onClick={switchVisibility}
+                        checked={state.selectedLayer === layer.layersIds[0]}
+                        onChange={switchVisibility}
                     />
                     <label className="as-caption" htmlFor={layer.layersIds[0]}>{layer.layerTitle}</label>
                 </div>

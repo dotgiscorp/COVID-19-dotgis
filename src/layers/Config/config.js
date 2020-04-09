@@ -29,6 +29,13 @@ export default {
         [-4.2129351236574735, 40.23670360815473],
         [-3.1320186657642637, 40.64109281781327]
       ]
+    },
+
+    animatedLayer: {
+      maxRadius: 6,
+      framesPerSecond: 120,
+      initialOpacity: 1,
+      initialRadius: 2
     }
   };
   

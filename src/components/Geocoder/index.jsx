@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import mapboxgl, { Map } from 'mapbox-gl';
 import MapboxGeocoder from '@mapbox/mapbox-gl-geocoder';
 import '@mapbox/mapbox-gl-geocoder/dist/mapbox-gl-geocoder.css';
-import './style.scss';
 
 const Geocoder = ({ mapObject }) => {
     const geocoderContainerRef = React.useRef(null);

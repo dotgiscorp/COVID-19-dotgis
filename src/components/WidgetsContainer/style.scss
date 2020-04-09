@@ -8,7 +8,10 @@
     padding: .5rem;
 
     &__child {
-        margin-bottom: 1rem;
         z-index: 1;
+
+        &:not(:last-child) {
+            margin-bottom: 1rem;
+        }
     }
 }

@@ -1,10 +1,10 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import mapboxgl from 'mapbox-gl';
 import ReactMapboxGL, { MapContext, ZoomControl } from 'react-mapbox-gl';
 import { Sources, Layers, useCartoTiles } from '../layers';
 import { Loader, WidgetsContainer, LayerSelector, Geocoder } from '../components';
 import CONFIG from '../layers/Config/config';
+import { isMobile } from 'react-device-detect';
 
 const Map = ReactMapboxGL({
   accessToken:
@@ -27,11 +27,10 @@ const layersVisibilityConfig = [
   { shouldShowOnInit: false, layersIds: [CONFIG.supermarketsId, CONFIG.supermarketsVoronoiId, `${CONFIG.supermarketsId}_raw`, `${CONFIG.supermarketsId}_labels`], layerTitle: 'Supermercados', layerColor: 'rgb(0, 102, 255)' }
 ]
 
-const MapboxMap = ({ mapFilters }) => {
-
+const MapboxMap = () => {
   const [allLoaded, setAllLoaded] = React.useState(false);
   const [mapObject, setMap] = React.useState(null);
-  const [layersConfig] = useCartoTiles(mapFilters);
+  const [layersConfig] = useCartoTiles();
 
   return (
     <>
@@ -44,7 +43,7 @@ const MapboxMap = ({ mapFilters }) => {
                 <WidgetsContainer position="top-left">
                   <Geocoder mapObject={mapObject} />
                 </WidgetsContainer>
-                <WidgetsContainer>
+                <WidgetsContainer position={isMobile ? 'bottom-right' : 'top-right'}>
                   <LayerSelector key="layer-picker" mapObject={mapObject} layers={layersVisibilityConfig} />
                 </WidgetsContainer>
               </>
@@ -92,10 +91,6 @@ const MapboxMap = ({ mapFilters }) => {
       )}
     </>
   );
-};
-
-MapboxMap.propTypes = {
-  mapFilters: PropTypes.oneOfType([PropTypes.object]).isRequired
 };
 
 export default MapboxMap;

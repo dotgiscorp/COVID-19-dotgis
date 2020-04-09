@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { store } from '../../store/store';
 import { Map } from 'mapbox-gl';
 import { Layer, Popup } from 'react-mapbox-gl';
 import { useMapEvents } from '../Hooks/useMapEvents';
@@ -7,10 +8,12 @@ import { PopupTemplate } from '../../components';
 import CONFIG from '../Config/config';
 
 const Layers = ({ map, config }) => {
+  const globalState = React.useContext(store);
+
   const [popupConfig, clickedFeature] = useMapEvents(map, config);
 
   React.useEffect(() => {
-    if (clickedFeature && clickedFeature.source === CONFIG.pharmacySourceId) {
+    if (clickedFeature && (clickedFeature.source === CONFIG.pharmacySourceId || clickedFeature.source === CONFIG.supermarketsSourceId)) {
       const centerIn = clickedFeature.geometry.coordinates;
 
       map.flyTo({
@@ -24,16 +27,16 @@ const Layers = ({ map, config }) => {
   return (
     <>
       {Object.values(config).map(info => (
-        <Layer
+        !info.isSource && <Layer
           key={info.id}
           id={info.id}
           type={info.type}
           sourceId={info.sourceId}
           sourceLayer={info.sourceLayer}
           paint={info.paint}
-          layout={info.layout || undefined}
-          minZoom={info.minZoom || undefined}
-          maxZoom={info.maxZoom || undefined}
+          {...(info.layout && { layout: info.layout })}
+          {...(info.minZoom && { minZoom: info.minZoom })}
+          {...(info.maxZoom && { maxZoom: info.maxZoom })}
         />
       ))}
       {popupConfig && popupConfig.coords && (

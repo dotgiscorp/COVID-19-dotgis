@@ -14,11 +14,11 @@ export default {
     }),
     pharmacy: {
         'circle-color': ['case', ['boolean', ['feature-state', 'hover'], false], 'rgb(255, 102, 0)', 'rgb(0, 255, 0)'],
-        'circle-radius': ['interpolate', ['exponential', 0.7], ['zoom'], 10, 0, 20, 5]
+        'circle-radius': ['interpolate', ['exponential', 0.7], ['zoom'], 4, 0, 10, 3, 15, 5, 20, 7]
     },
     supermarket: {
         'circle-color': ['case', ['boolean', ['feature-state', 'hover'], false], 'rgb(255, 102, 0)', 'rgb(0, 102, 255)'],
-        'circle-radius': ['interpolate', ['exponential', 0.7], ['zoom'], 10, 0, 20, 5]
+        'circle-radius': ['interpolate', ['exponential', 0.7], ['zoom'], 4, 0, 10, 3, 15, 5, 20, 7]
     },
     label_paint: labelField => ({
         textColor: {

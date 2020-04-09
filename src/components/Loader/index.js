@@ -43,8 +43,7 @@ Loader.defaultProps = {
 };
 
 Loader.propTypes = {
-    mapObject: PropTypes.instanceOf(Map),
-    dataLoading: PropTypes.bool.isRequired
+    mapObject: PropTypes.instanceOf(Map)
 };
 
 export { Loader };

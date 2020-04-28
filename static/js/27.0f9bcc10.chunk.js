@@ -1,0 +1,2 @@
+(this["webpackJsonpcovid-dotgis"]=this["webpackJsonpcovid-dotgis"]||[]).push([[27],{99:function(t,e,n){"use strict";n.r(e),n.d(e,"as_legend_color_category_point",(function(){return i}));var o=n(14),i=function(){function t(t){Object(o.g)(this,t)}return t.prototype.render=function(){return Object(o.f)("as-legend-category",{data:this.data,orientation:this.orientation,width:this.width})},Object.defineProperty(t,"style",{get:function(){return"as-legend-color-category-point{display:block}"},enumerable:!0,configurable:!0}),t}()}}]);
+//# sourceMappingURL=27.0f9bcc10.chunk.js.map

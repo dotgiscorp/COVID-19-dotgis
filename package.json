@@ -1,19 +1,19 @@
 {
-  "name": "farmacias-voronoi",
+  "name": "covid-dotgis",
   "version": "0.1.0",
   "private": true,
-  "homepage": "http://dotgiscorp.github.io/CODVID-19-dotgis",
+  "homepage": "http://dotgiscorp.github.io/COVID-19-dotgis",
   "dependencies": {
+    "@carto/airship-components": "^2.3.1",
     "@carto/airship-style": "^2.2.1",
     "@mapbox/mapbox-gl-geocoder": "^4.5.1",
     "@testing-library/jest-dom": "^4.2.4",
     "@testing-library/react": "^9.5.0",
     "@testing-library/user-event": "^7.2.1",
     "@types/mapbox-gl": "^1.8.3",
-    "mapbox-gl": "^1.9.1",
+    "mapbox-gl": "^1.10.0",
     "node-sass": "^4.13.1",
     "react": "^16.13.0",
-    "react-device-detect": "^1.11.14",
     "react-dom": "^16.13.0",
     "react-mapbox-gl": "^4.8.2",
     "react-scripts": "3.4.0"

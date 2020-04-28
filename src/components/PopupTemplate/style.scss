@@ -9,8 +9,9 @@
 }
 
 .mapboxgl-popup-content {
-  background-color: rgb(89, 89, 89) !important;
-  color: white !important;
+  background-color: var(--color--primary) !important;
+  color: var(--color--secondary) !important;
+  opacity: .8 !important;
   border-color: transparent !important;
   box-shadow: none !important;
   padding: 6px !important;
@@ -22,7 +23,7 @@
   display: none;
 }
 
-$popup-grid-columns: 14; // Number of fields
+$popup-grid-columns: 2; // Number of fields
 
 @mixin popup-generator($column-position) {
   @for $i from 0 through $popup-grid-columns {
@@ -39,7 +40,7 @@ $popup-grid-columns: 14; // Number of fields
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax([col] .5fr, [col] .5fr));
   grid-template-rows: [row] auto [row] auto [row];
-  padding: .125rem;
+  padding: .125rem .175rem;
   @include align-items(baseline);
 
   &--static {
@@ -50,16 +51,16 @@ $popup-grid-columns: 14; // Number of fields
 
   &--dynamic {
     @include popup-generator(2);
-    color: lightgrey;
+    color: #fff;
     margin-left: .5rem;
 
     span:first-child {
       margin-right: .25rem;
-      font-size: .9rem;
+      font-size: .8rem;
     }
 
     span:nth-child(2) {
-      font-size: .7rem;
+      font-size: .6rem;
     }
   }
 }

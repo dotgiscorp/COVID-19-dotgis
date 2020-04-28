@@ -1,0 +1,22 @@
+@import '../../../styles/mixins.scss';
+
+.footer {
+  @include flex-definition(row, center, center);
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  padding: 4px 8px;
+  border-top-left-radius: 0.25rem;
+  background-color: var(--color--primary);
+  color: var(--color--secondary);
+  font-size: 10px;
+  font-weight: 500;
+  z-index: 1;
+
+  span {
+    &:hover {
+      color: var(--color--secondary--hover);
+      cursor: pointer;
+    }
+  }
+}

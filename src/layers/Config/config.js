@@ -2,9 +2,9 @@ export default {
     dotgisUser: 'dotgis',
     dotgisMapsKey: 'wqTxcWJUw09P4IzpBo4kfg',
   
-    voronoiId: 'voronoi',
-    voronoiSourceId: 'voronoi_source',
-    voronoiSourceLayer: 'voronoi_source_layer',
+    pharmacyVoronoiId: 'pharmacy_voronoi',
+    pharmacyVoronoiSourceId: 'pharmacy_voronoi_source_id',
+    pharmacyVoronoiSourceLayer: 'pharmacy_voronoi_source_layer',
 
     pharmacyId: 'pharmacy',
     pharmacySourceId: 'pharmacy_source_id',
@@ -20,22 +20,11 @@ export default {
     supermarketsSourceLayer: 'supermarkets_source_layer',
     aggregatedSupermarketsField: 'supermarkets_aggregated',
 
-    citiesBounds: {
-      bcn: [
-        [1.8428559879610305, 41.28923112254472],
-        [2.446940749712155, 41.51196575373871]
-      ],
-      madrid: [
-        [-4.2129351236574735, 40.23670360815473],
-        [-3.1320186657642637, 40.64109281781327]
-      ]
-    },
-
-    animatedLayer: {
-      maxRadius: 6,
-      framesPerSecond: 120,
-      initialOpacity: 1,
-      initialRadius: 2
-    }
+    infectedId: '3_id',
+    infectedIdWas: '2_id',
+    infectedIdTest: '1_id',
+    infectedIdNo: '0_id',
+    infectedSourceId: 'infected_source_id',
+    infectedSourceLayer: 'infected_source_layer',
   };
   

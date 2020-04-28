@@ -1,17 +1,18 @@
 import React from 'react';
+import { store } from '../store/store';
 import mapboxgl from 'mapbox-gl';
 import ReactMapboxGL, { MapContext, ZoomControl } from 'react-mapbox-gl';
 import { Sources, Layers, useCartoTiles } from '../layers';
-import { Loader, WidgetsContainer, LayerSelector, Geocoder } from '../components';
+import { Loader, WidgetsContainer, LayerSelector, Form, Footer } from '../components';
 import CONFIG from '../layers/Config/config';
-import { isMobile } from 'react-device-detect';
 
 const Map = ReactMapboxGL({
-  accessToken:
-    'pk.eyJ1IjoiZG90Z2lzIiwiYSI6ImNqd3Z6amtjMTBjOTA0OW84ZjVvYzF6bjQifQ.LIbUaYq3GaiWTzsBV6YnTA'
+  accessToken: 'pk.eyJ1IjoiZG90Z2lzIiwiYSI6ImNqd3Z6amtjMTBjOTA0OW84ZjVvYzF6bjQifQ.LIbUaYq3GaiWTzsBV6YnTA',
+  dragRotate: false,
+  minZoom: 12
 });
 
-const style = 'mapbox://styles/mapbox/dark-v10';
+const style = 'https://basemaps.cartocdn.com/gl/dark-matter-gl-style/style.json';
 
 const checkBrowserSupport = () => {
   if (!mapboxgl.supported()) {
@@ -23,27 +24,32 @@ const checkBrowserSupport = () => {
 };
 
 const layersVisibilityConfig = [
-  { shouldShowOnInit: true, layersIds: [CONFIG.pharmacyId, CONFIG.voronoiId, `${CONFIG.pharmacyId}_raw`, `${CONFIG.pharmacyId}_labels`], layerTitle: 'Farmacias', layerColor: 'rgb(0, 255, 0)' },
-  { shouldShowOnInit: false, layersIds: [CONFIG.supermarketsId, CONFIG.supermarketsVoronoiId, `${CONFIG.supermarketsId}_raw`, `${CONFIG.supermarketsId}_labels`], layerTitle: 'Supermercados', layerColor: 'rgb(0, 102, 255)' }
-]
+  { shouldShowOnInit: true, layersIds: [CONFIG.infectedId], layerTitle: 'Positivos' },
+  { shouldShowOnInit: false, layersIds: [CONFIG.infectedIdWas], layerTitle: 'Fueron positivos' },
+  { shouldShowOnInit: false, layersIds: [CONFIG.infectedIdTest], layerTitle: 'Hubo síntomas, sin prueba de test' },
+  { shouldShowOnInit: false, layersIds: [CONFIG.infectedIdNo], layerTitle: 'Sin síntomas' },
+  { shouldShowOnInit: false, layersIds: [CONFIG.pharmacyId, CONFIG.pharmacyVoronoiId, `${CONFIG.pharmacyId}_raw`, `${CONFIG.pharmacyId}_labels`], layerTitle: 'Farmacias' },
+  { shouldShowOnInit: false, layersIds: [CONFIG.supermarketsId, CONFIG.supermarketsVoronoiId, `${CONFIG.supermarketsId}_raw`, `${CONFIG.supermarketsId}_labels`], layerTitle: 'Supermercados' }
+];
 
 const MapboxMap = () => {
+  // const globalState = React.useContext(store);
+  // const { state: { forceUpdate } } = globalState;
+
+  const [mapObject, setMap] = React.useState();
   const [allLoaded, setAllLoaded] = React.useState(false);
-  const [mapObject, setMap] = React.useState(null);
   const [layersConfig] = useCartoTiles();
 
   return (
     <>
       {checkBrowserSupport() && (
         <>
-          {
+          { 
             mapObject && (
               <>
                 <Loader mapObject={mapObject} />
-                <WidgetsContainer position="top-left">
-                  <Geocoder mapObject={mapObject} />
-                </WidgetsContainer>
-                <WidgetsContainer position={isMobile ? 'bottom-right' : 'top-right'}>
+                <Form mapObject={mapObject} />
+                <WidgetsContainer>
                   <LayerSelector key="layer-picker" mapObject={mapObject} layers={layersVisibilityConfig} />
                 </WidgetsContainer>
               </>
@@ -51,10 +57,8 @@ const MapboxMap = () => {
           }
           <Map
             style={style}
-            fitBounds={[
-              [-4.2129351236574735, 40.23670360815473],
-              [-3.1320186657642637, 40.64109281781327]
-            ]}
+            center={[-3.703790, 40.416775]}
+            zoom={[15]}
             containerStyle={{
               position: 'absolute',
               width: '100%',
@@ -63,7 +67,7 @@ const MapboxMap = () => {
           >
             <MapContext.Consumer>
               {map => {
-                setMap(map);
+                !mapObject && setMap(map);
 
                 return (
                   <>
@@ -79,7 +83,11 @@ const MapboxMap = () => {
                             <Layers key="map" map={map} config={layersConfig} />
                           </>
                         )}
-                        <ZoomControl key="zoom-control" position="bottom-left" />
+                        <ZoomControl
+                          key="zoom-control"
+                          position="bottom-left"
+                          className="custom__zoom"
+                        />
                       </>
                     )}
                   </>
@@ -87,6 +95,7 @@ const MapboxMap = () => {
               }}
             </MapContext.Consumer>
           </Map>
+          <Footer />
         </>
       )}
     </>

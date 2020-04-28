@@ -9,11 +9,10 @@ function useCartoTiles() {
   const [layersConfig, setLayers] = useState(null);
 
   const getTiles = async () => {
-      
     const voronoiInfo = new CartoMVTRequest({
       cartoAccount: CONFIG.dotgisUser,
       cartoMapsKey: CONFIG.dotgisMapsKey,
-      id: CONFIG.voronoiSourceLayer,
+      id: CONFIG.pharmacyVoronoiSourceLayer,
       sql: QUERY.voronoi
     });
 
@@ -80,29 +79,37 @@ function useCartoTiles() {
       sql: QUERY.supermarketVoronoi
     });
 
+    const infectedInfo = new CartoMVTRequest({
+      cartoAccount: CONFIG.dotgisUser,
+      cartoMapsKey: '6fb966f30adb903ece7385e3aa059752a4e8fb5d',
+      id: CONFIG.infectedSourceLayer,
+      sql: QUERY.infected
+    });
+
     Promise.all([
       voronoiInfo.getTiles(),
       pharmacyClusterInfo.getTiles(),
       pharmacyInfo.getTiles(),
       supermarketInfo.getTiles(),
       supermarketClusterInfo.getTiles(),
-      supermarketsVoronoiInfo.getTiles()
+      supermarketsVoronoiInfo.getTiles(),
+      infectedInfo.getTiles()
     ]).then(response => {
       setLayers({
         pharmacy_voronoi_source: {
           isSource: true,
-          sourceId: CONFIG.voronoiSourceId,
+          sourceId: CONFIG.pharmacyVoronoiSourceId,
           pbf: response[0],
           promoteId: 'cartodb_id'
         },
         pharmacy_voronoi_layer: {
-          id: CONFIG.voronoiId,
-          sourceId: CONFIG.voronoiSourceId,
-          sourceLayer: CONFIG.voronoiSourceLayer,
+          id: CONFIG.pharmacyVoronoiId,
+          sourceId: CONFIG.pharmacyVoronoiSourceId,
+          sourceLayer: CONFIG.pharmacyVoronoiSourceLayer,
           type: 'fill',
           paint: PAINT.voronoi,
           layout: {
-            'visibility': 'visible'
+            'visibility': 'none'
           }
         },
         pharmacy_raw_source: {
@@ -128,7 +135,7 @@ function useCartoTiles() {
             },
           },
           layout: {
-            'visibility': 'visible'
+            'visibility': 'none'
           }
         },
         pharmacy_cluster_source: {
@@ -144,7 +151,7 @@ function useCartoTiles() {
           type: 'circle',
           paint: PAINT.cluster(CONFIG.aggregatedField),
           layout: {
-            'visibility': 'visible'
+            'visibility': 'none'
           }
         },
         pharmacy_cluster_labels_layer: {
@@ -153,7 +160,7 @@ function useCartoTiles() {
           sourceLayer: CONFIG.pharmacySourceLayer,
           type: 'symbol',
           paint: PAINT.label_paint(CONFIG.aggregatedField).textColor,
-          layout: { 'visibility': 'visible', ...PAINT.label_paint(CONFIG.aggregatedField).layout }
+          layout: { 'visibility': 'none', ...PAINT.label_paint(CONFIG.aggregatedField).layout }
         },
         supermarkets_voronoi_source: {
           isSource: true,
@@ -223,6 +230,76 @@ function useCartoTiles() {
           paint: PAINT.label_paint(CONFIG.aggregatedSupermarketsField).textColor,
           layout: { 'visibility': 'none', ...PAINT.label_paint(CONFIG.aggregatedSupermarketsField).layout }
         },
+        infected_source: {
+          isSource: true,
+          sourceId: CONFIG.infectedSourceId,
+          pbf: response[6],
+          promoteId: 'cartodb_id'
+        },
+        infected_layer: {
+          id: CONFIG.infectedId,
+          sourceId: CONFIG.infectedSourceId,
+          sourceLayer: CONFIG.infectedSourceLayer,
+          type: 'fill',
+          paint: PAINT.infected(3),
+          popupFieldsConfig: {
+            type_3: {
+              fieldLabel: 'infectados',
+              label: ''
+            }
+          },
+          layout: {
+            'visibility': 'visible'
+          }
+        },
+        infected_layer_was: {
+          id: CONFIG.infectedIdWas,
+          sourceId: CONFIG.infectedSourceId,
+          sourceLayer: CONFIG.infectedSourceLayer,
+          type: 'fill',
+          paint: PAINT.infected(2),
+          popupFieldsConfig: {
+            type_2: {
+              fieldLabel: 'fueron positivos',
+              label: ''
+            }
+          },
+          layout: {
+            'visibility': 'none'
+          }
+        },
+        infected_layer_test: {
+          id: CONFIG.infectedIdTest,
+          sourceId: CONFIG.infectedSourceId,
+          sourceLayer: CONFIG.infectedSourceLayer,
+          type: 'fill',
+          paint: PAINT.infected(1),
+          popupFieldsConfig: {
+            type_1: {
+              fieldLabel: 'hubo síntomas, sin prueba de test',
+              label: ''
+            }
+          },
+          layout: {
+            'visibility': 'none'
+          }
+        },
+        infected_layer_no: {
+          id: CONFIG.infectedIdNo,
+          sourceId: CONFIG.infectedSourceId,
+          sourceLayer: CONFIG.infectedSourceLayer,
+          type: 'fill',
+          paint: PAINT.infected(0),
+          popupFieldsConfig: {
+            type_0: {
+              fieldLabel: 'sin síntomas',
+              label: ''
+            }
+          },
+          layout: {
+            'visibility': 'none'
+          }
+        }
       });
     });
   };
@@ -230,6 +307,20 @@ function useCartoTiles() {
   React.useEffect(() => {
     getTiles();
   }, []);
+
+  /* React.useEffect(() => {
+    if (forceUpdate) {
+      const layersToRemove = [CONFIG.infectedId, CONFIG.infectedIdWas, CONFIG.infectedIdTest, CONFIG.infectedIdNo];
+
+      for(const layer of layersToRemove) {
+        mapObject.removeLayer(layer);
+      }
+
+      mapObject.removeSource(CONFIG.infectedSourceId);
+      
+      getTiles();
+    }
+  }, [forceUpdate]); */
 
   return [layersConfig];
 }

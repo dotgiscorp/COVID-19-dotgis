@@ -1,12 +1,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { Map } from 'mapbox-gl';
 import { store } from '../../store/store';
 import '@carto/airship-style';
 import './style.scss';
 
 const LayerSelector = ({ mapObject, layers }) => {
     const globalState = React.useContext(store);
-    const { state, dispatch } = globalState;
+    const { state: { selectedLayer }, dispatch } = globalState;
 
     React.useEffect(() => {
         if (layers) {
@@ -18,25 +19,29 @@ const LayerSelector = ({ mapObject, layers }) => {
         }
     }, []);
 
-    const switchVisibility = e => {
-        const id = e.target.name;
-
+    const switchVisibility = id => {
         dispatch({ type: 'switch layer', payload: id });
 
         for (const config of layers) {
             for (const layer of config.layersIds) {
                 if (mapObject.getLayer(layer)) {
-                    mapObject.getLayoutProperty(layer, 'visibility') === 'visible' ?
-                        mapObject.setLayoutProperty(layer, 'visibility', 'none') :
-                        mapObject.setLayoutProperty(layer, 'visibility', 'visible');
+                    layer.includes(id) ?
+                        mapObject.setLayoutProperty(layer, 'visibility', 'visible') :
+                        mapObject.setLayoutProperty(layer, 'visibility', 'none')
                 }
             }
         }
     };
 
+    React.useEffect(() => {
+        if (selectedLayer) {
+            switchVisibility(selectedLayer);
+        }
+    }, [selectedLayer]);
+
     return (
           <div className="layers-picker">
-            {state.selectedLayer && layers.map((layer, index) => (
+            {selectedLayer && layers.map((layer, index) => (
                 <div key={layer.layersIds[0]} className="as-radio">
                     <input
                         className="as-radio__input"
@@ -44,8 +49,8 @@ const LayerSelector = ({ mapObject, layers }) => {
                         name={layer.layersIds[0]}
                         id={layer.layersIds[0]}
                         value={index}
-                        checked={state.selectedLayer === layer.layersIds[0]}
-                        onChange={switchVisibility}
+                        checked={selectedLayer === layer.layersIds[0]}
+                        onChange={e => switchVisibility(e.target.name)}
                     />
                     <label className="as-caption" htmlFor={layer.layersIds[0]}>{layer.layerTitle}</label>
                 </div>
@@ -60,8 +65,7 @@ LayerSelector.propTypes = {
         PropTypes.shape({
           shouldShowOnInit: PropTypes.bool,
           layersIds: PropTypes.arrayOf(PropTypes.string),
-          layerTitle: PropTypes.string,
-          layerColor: PropTypes.string
+          layerTitle: PropTypes.string
         })
       ).isRequired
 };

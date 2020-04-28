@@ -1,11 +1,12 @@
 import React from 'react';
+import { store } from '../../store/store';
 import PropTypes from 'prop-types';
 import { Map } from 'mapbox-gl';
 import './style.scss';
 
 const Loader = ({ mapObject }) => {
-
-    const [dataLoading, setDataLoading] = React.useState(true);
+    const globalState = React.useContext(store);
+    const { state: { dataLoading }, dispatch } = globalState;
 
     React.useEffect(() => {
         let tilesRenderedChecker = false;
@@ -17,7 +18,7 @@ const Loader = ({ mapObject }) => {
                         setTimeout(waiting, 200);
                     } else {
                         if (!tilesRenderedChecker) {
-                            setDataLoading(false);
+                            dispatch({ type: 'set loading', payload: false });
                         }
                         tilesRenderedChecker = true;
                     }
@@ -38,12 +39,8 @@ const Loader = ({ mapObject }) => {
     );
 };
 
-Loader.defaultProps = {
-    mapObject: Map
-};
-
 Loader.propTypes = {
-    mapObject: PropTypes.instanceOf(Map)
+    mapObject: PropTypes.instanceOf(Map).isRequired
 };
 
 export { Loader };

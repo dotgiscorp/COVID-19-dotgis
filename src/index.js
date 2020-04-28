@@ -2,7 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { StateProvider } from './store/store.js';
 import App from './map';
-import './index.css';
+import './index.scss';
 
 const app = (
     <StateProvider>

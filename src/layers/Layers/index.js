@@ -1,6 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { store } from '../../store/store';
 import { Map } from 'mapbox-gl';
 import { Layer, Popup } from 'react-mapbox-gl';
 import { useMapEvents } from '../Hooks/useMapEvents';
@@ -8,8 +7,6 @@ import { PopupTemplate } from '../../components';
 import CONFIG from '../Config/config';
 
 const Layers = ({ map, config }) => {
-  const globalState = React.useContext(store);
-
   const [popupConfig, clickedFeature] = useMapEvents(map, config);
 
   React.useEffect(() => {
@@ -23,6 +20,7 @@ const Layers = ({ map, config }) => {
       });
     }
   }, [clickedFeature]);
+
 
   return (
     <>
@@ -44,7 +42,7 @@ const Layers = ({ map, config }) => {
           coordinates={popupConfig.coords}
           style={{ display: popupConfig.shouldRender ? '' : 'none' }}
           offset={{
-            bottom: [0, 80]
+            bottom: [-60, 80]
           }}
         >
           <PopupTemplate content={popupConfig.info} />

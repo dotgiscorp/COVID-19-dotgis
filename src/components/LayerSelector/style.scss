@@ -2,7 +2,8 @@
 
 .layers-picker {
     @include flex-definition(column, center, flex-start);
-    background-color: white;
+    background-color: var(--color--primary);
+    color: #fff;
     padding: .75rem;
     border-radius: .25rem;
     z-index: 2;

@@ -1,0 +1,55 @@
+@import '../../../styles/mixins.scss';
+
+.form {
+    display: none;
+    position: absolute;
+    height: 12rem;
+    width: calc(12rem * 1.6);
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    padding: 1.5rem;
+    box-shadow: 0 16px 48px 0 rgba(183, 184, 190, 0.1);
+    background-color: var(--color--primary);
+    color: #fff;
+    border-radius: .25rem;
+    z-index: 12;
+
+    &--opened {
+        @include flex-definition(column, space-between, center);
+    }
+
+    &__bg {
+        display: none;
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.6);
+        z-index: 11;
+
+        &--opened {
+            display: block;
+        }
+    }
+
+    &__images {
+        @include flex-definition(row, space-around, center);
+        width: 100%;
+
+        img {
+            height: 2.5rem;
+        }
+    }
+
+    &__step {
+        width: 100%;
+    }
+
+    h4 {
+        font-weight: 500;
+    }
+
+    .thanks {
+        text-align: center;
+    }
+}

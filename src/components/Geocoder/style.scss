@@ -1,0 +1,9 @@
+@import '../../../styles/mixins.scss';
+
+.mapboxgl-ctrl-geocoder--input {
+    @include respond-to(mobile) {
+        font-size: unset;
+    }
+
+    font-size: 12px;
+}

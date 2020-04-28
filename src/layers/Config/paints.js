@@ -30,5 +30,29 @@ export default {
             'text-size': ['step', ['get', labelField], 12, 100, 13, 750, 14],
             'text-allow-overlap': true
         }
+    }),
+    infected: type => ({
+        'fill-color': [
+            'interpolate',
+            ['linear'],
+            ['to-number', ['get', `type_${type}`]],
+            0,
+            'rgba(0, 0, 0, 0)',
+            1,
+            'rgba(255, 237, 160, 0.6)',
+            2,
+            'rgba(254, 217, 118, 0.6)',
+            3,
+            'rgba(254, 178, 76, 0.6)',
+            4,
+            'rgba(253, 141, 60, 0.6)',
+            5,
+            'rgba(252, 78, 42, 0.6)',
+            6,
+            'rgba(227, 26, 28, 0.6)',
+            Number.MAX_SAFE_INTEGER,
+            'rgba(189, 0, 38, 0.6)'
+        ],
+        'fill-outline-color': 'rgba(204, 102, 255, 0.3)'
     })
 };

@@ -1,0 +1,9 @@
+$color-primary: #1a2426;
+$color-secondary: #61888c;
+$color-secondary--hover: darken($color-secondary, 10%);
+
+@mixin colors-vars {
+    --color--primary: #{$color-primary};
+    --color--secondary: #{$color-secondary};
+    --color--secondary--hover: #{$color-secondary--hover};
+}

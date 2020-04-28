@@ -1,6 +1,10 @@
-# CODVID-19-dotgis
+# COVID-19-dotgis
 
-Location Intelligence app that shows your closest supermarkets and pharmacies based on Voronoi polygons (Spain)
+Location Intelligence app that allows spanish people to add their Covid state
+
+&&
+
+it shows your closest supermarkets and pharmacies based on Voronoi polygons (Spain)
 
 <img src="./thumb.png" alt="app-thumb">
 
@@ -10,7 +14,7 @@ Location Intelligence app that shows your closest supermarkets and pharmacies ba
 * Fork and clone the project:
 
 ```
-git clone https://github.com/AdriSolid/CODVID-19-dotgis.git
+git clone https://github.com/dotgiscorp/COVID-19-dotgis.git
 ```
 
 * Then install the dependencies:
